@@ -3,24 +3,19 @@ import java.io.*;
 
 class DateTimeClient {
     public static void main(String[] args) {
-        String hostName = "";  // Rechner-Name bzw. -Adresse
-        int port;              // Port-Nummer
-        Socket c;       // Socket fuer die Verbindung zum Server
+        String hostName = "";   // Rechner-Name bzw. -Adresse
+        int port;               // Port-Nummer
+        Socket c;               // Socket fuer die Verbindung zum Server
 
         try {
             hostName = args[0];
             port = Integer.parseInt(args[1]);
             c = new Socket(hostName, port);
 
-            BufferedReader vomServer = new BufferedReader(
-                    new InputStreamReader(
-                            c.getInputStream()));
-            PrintWriter zumServer = new PrintWriter(
-                    c.getOutputStream(),true);
+            BufferedReader vomServer = new BufferedReader(new InputStreamReader(c.getInputStream()));
+            PrintWriter zumServer = new PrintWriter(c.getOutputStream(),true);
 
-            BufferedReader vonTastatur = new BufferedReader(
-                    new InputStreamReader(
-                            System.in));
+            BufferedReader vonTastatur = new BufferedReader(new InputStreamReader(System.in));
 
             // Protokoll abwickeln
             System.out.println("Server " + hostName +":"+ port + " sagt:");
