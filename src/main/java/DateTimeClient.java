@@ -1,5 +1,6 @@
-import java.net.*;
 import java.io.*;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 class DateTimeClient {
     public static void main(String[] args) {
@@ -13,6 +14,7 @@ class DateTimeClient {
             c = new Socket(hostName, port);
 
             BufferedReader vomServer = new BufferedReader(new InputStreamReader(c.getInputStream()));
+            ObjectInputStream vomServerSerializable = new ObjectInputStream(c.getInputStream());
             PrintWriter zumServer = new PrintWriter(c.getOutputStream(),true);
 
             BufferedReader vonTastatur = new BufferedReader(new InputStreamReader(System.in));
@@ -23,8 +25,8 @@ class DateTimeClient {
             System.out.println(text);         // auf die Konsole schreiben
             text = vonTastatur.readLine();    // von Tastatur lesen
             zumServer.println(text);          // zum Server schicken
-            text = vomServer.readLine();      // vom Server empfangen
-            System.out.println(text);         // auf die Konsole schreiben
+            DateTimeInfo info = (DateTimeInfo) vomServerSerializable.readObject();
+            System.out.println(info.getInfo());         // auf die Konsole schreiben
 
             // Socket (und damit auch Stroeme) schliessen
             c.close();
@@ -35,6 +37,8 @@ class DateTimeClient {
             System.out.println("Kein DNS-Eintrag fuer " + hostName);
         } catch (IOException e) {
             System.out.println("IO-Error");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
