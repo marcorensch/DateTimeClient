@@ -1,3 +1,5 @@
+package ch.ibw.clientServer.client.javaReply;
+
 import java.io.Serializable;
 
 public class DateTimeInfo implements Serializable {
