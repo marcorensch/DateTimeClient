@@ -1,5 +1,7 @@
 package ch.ibw.clientServer.client.javaReply;
 
+import ch.ibw.clientServer.shared.DateTimeInfo;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
