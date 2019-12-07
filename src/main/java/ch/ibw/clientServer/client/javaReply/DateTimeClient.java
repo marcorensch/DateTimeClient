@@ -18,7 +18,6 @@ class DateTimeClient {
             c = new Socket(hostName, port);
 
             BufferedReader vomServer = new BufferedReader(new InputStreamReader(c.getInputStream()));
-            ObjectInputStream vomServerSerializable = new ObjectInputStream(c.getInputStream());
             PrintWriter zumServer = new PrintWriter(c.getOutputStream(),true);
 
             BufferedReader vonTastatur = new BufferedReader(new InputStreamReader(System.in));
@@ -27,10 +26,12 @@ class DateTimeClient {
             System.out.println("Server " + hostName +":"+ port + " sagt:");
             String text = vomServer.readLine(); // vom Server empfangen
             System.out.println(text);         // auf die Konsole schreiben
+
             text = vonTastatur.readLine();    // von Tastatur lesen
             zumServer.println(text);          // zum Server schicken
-            DateTimeInfo info = (DateTimeInfo) vomServerSerializable.readObject();
-            System.out.println(info.getInfo());         // auf die Konsole schreiben
+
+            String antwort = vomServer.readLine();
+            System.out.println(antwort);         // auf die Konsole schreiben
 
             // Socket (und damit auch Stroeme) schliessen
             c.close();
@@ -41,8 +42,6 @@ class DateTimeClient {
             System.out.println("Kein DNS-Eintrag fuer " + hostName);
         } catch (IOException e) {
             System.out.println("IO-Error");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 }
