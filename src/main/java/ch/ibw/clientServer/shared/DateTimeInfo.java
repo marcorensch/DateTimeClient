@@ -1,9 +1,10 @@
 package ch.ibw.clientServer.shared;
 
-import java.io.Serializable;
-
-public class DateTimeInfo implements Serializable {
+public class DateTimeInfo {
     private String info;
+
+    // Jackson braucht zwingend einen default constructor.
+    public DateTimeInfo() { }
 
     public DateTimeInfo(String info){
         this.info = info;
@@ -15,5 +16,12 @@ public class DateTimeInfo implements Serializable {
 
     public String getInfo() {
         return info;
+    }
+
+    @Override
+    public String toString() {
+        return "DateTimeInfo{" +
+                "info='" + info + '\'' +
+                '}';
     }
 }

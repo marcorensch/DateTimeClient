@@ -1,5 +1,8 @@
 package ch.ibw.clientServer.client.javaReply;
 
+import ch.ibw.clientServer.shared.DateTimeInfo;
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,7 +34,7 @@ class DateTimeClient {
             text = vonTastatur.readLine();      // von Tastatur lesen
             zumServer.println(text);            // zum Server schicken
 
-            String antwort = vomServer.readLine();
+            DateTimeInfo antwort = new XmlSerializer().deserialize(vomServer.readLine(), new TypeReference<DateTimeInfo>() {});
             System.out.println(antwort);         // auf die Konsole schreiben
 
             // Socket (und damit auch Streams) schliessen
@@ -43,6 +46,7 @@ class DateTimeClient {
             System.out.println("Kein DNS-Eintrag für " + hostName);
         } catch (IOException e) {
             System.out.println("IO-Error");
+            e.printStackTrace();
         }
     }
 }
