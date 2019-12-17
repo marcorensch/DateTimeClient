@@ -1,8 +1,9 @@
 package ch.ibw.clientServer.client.javaReply;
 
-import ch.ibw.clientServer.shared.DateTimeInfo;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -10,36 +11,36 @@ class DateTimeClient {
     public static void main(String[] args) {
         String hostName = "";   // Rechner-Name bzw. -Adresse
         int port;               // Port-Nummer
-        Socket c;               // Socket fuer die Verbindung zum Server
+        Socket socket;               // Socket für die Verbindung zum Server
 
         try {
             hostName = args[0];
             port = Integer.parseInt(args[1]);
-            c = new Socket(hostName, port);
+            socket = new Socket(hostName, port);
 
-            BufferedReader vomServer = new BufferedReader(new InputStreamReader(c.getInputStream()));
-            PrintWriter zumServer = new PrintWriter(c.getOutputStream(),true);
+            BufferedReader vomServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter zumServer = new PrintWriter(socket.getOutputStream(),true);
 
             BufferedReader vonTastatur = new BufferedReader(new InputStreamReader(System.in));
 
             // Protokoll abwickeln
-            System.out.println("Server " + hostName +":"+ port + " sagt:");
+            System.out.println("Server sagt:");
             String text = vomServer.readLine(); // vom Server empfangen
-            System.out.println(text);         // auf die Konsole schreiben
+            System.out.println(text);           // auf die Konsole schreiben
 
-            text = vonTastatur.readLine();    // von Tastatur lesen
-            zumServer.println(text);          // zum Server schicken
+            text = vonTastatur.readLine();      // von Tastatur lesen
+            zumServer.println(text);            // zum Server schicken
 
             String antwort = vomServer.readLine();
             System.out.println(antwort);         // auf die Konsole schreiben
 
-            // Socket (und damit auch Stroeme) schliessen
-            c.close();
+            // Socket (und damit auch Streams) schliessen
+            socket.close();
         } catch (ArrayIndexOutOfBoundsException ae) {
             System.out.println("Aufruf:");
             System.out.println("java DateTimeClient <HostName> <PortNr>");
         } catch (UnknownHostException ue) {
-            System.out.println("Kein DNS-Eintrag fuer " + hostName);
+            System.out.println("Kein DNS-Eintrag für " + hostName);
         } catch (IOException e) {
             System.out.println("IO-Error");
         }
