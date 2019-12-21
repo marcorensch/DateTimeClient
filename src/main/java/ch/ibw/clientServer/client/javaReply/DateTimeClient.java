@@ -1,8 +1,11 @@
 package ch.ibw.clientServer.client.javaReply;
 
+import ch.ibw.clientServer.shared.DateTimeInfo;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -20,6 +23,7 @@ class DateTimeClient {
 
             BufferedReader vomServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter zumServer = new PrintWriter(socket.getOutputStream(),true);
+            ObjectInputStream vomServerSerializable = new ObjectInputStream(socket.getInputStream());
 
             BufferedReader vonTastatur = new BufferedReader(new InputStreamReader(System.in));
 
@@ -31,8 +35,16 @@ class DateTimeClient {
             text = vonTastatur.readLine();      // von Tastatur lesen
             zumServer.println(text);            // zum Server schicken
 
-            String antwort = vomServer.readLine();
-            System.out.println(antwort);         // auf die Konsole schreiben
+            String anzeige = "";
+            // Zwei Varianten:
+            // 1. Server schickt ein mit Java serialisiertes Objekt:
+//            DateTimeInfo antwort = (DateTimeInfo) vomServerSerializable.readObject();
+//            anzeige = antwort.getInfo();
+
+            // 2. Server schickt ein simplen String
+//            anzeige = vomServer.readLine();
+
+            System.out.println(anzeige);         // auf die Konsole schreiben
 
             // Socket (und damit auch Streams) schliessen
             socket.close();
@@ -43,6 +55,9 @@ class DateTimeClient {
             System.out.println("Kein DNS-Eintrag für " + hostName);
         } catch (IOException e) {
             System.out.println("IO-Error");
+        } catch (ClassNotFoundException e) {
+          System.out.println("Konnte nicht deserialisieren");
+          e.printStackTrace();
         }
     }
 }
