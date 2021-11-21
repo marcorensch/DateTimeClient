@@ -24,7 +24,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>DateTimeServer</mainClass>
+                            <mainClass>ch.ibw.clientServer.client.javaReply.DateTimeClient</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
