@@ -5,7 +5,10 @@ import java.io.Serializable;
 public class DateTimeInfo implements Serializable {
     private String info;
 
-    public DateTimeInfo(String info){
+    public DateTimeInfo() {
+    }
+
+    public DateTimeInfo(String info) {
         this.info = info;
     }
 
