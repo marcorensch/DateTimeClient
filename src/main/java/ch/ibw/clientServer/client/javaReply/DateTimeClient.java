@@ -1,6 +1,7 @@
 package ch.ibw.clientServer.client.javaReply;
 
 import ch.ibw.clientServer.shared.DateTimeInfo;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,14 +40,14 @@ class DateTimeClient {
             // Drei Varianten:
 
             // 1. Server schickt ein mit Java serialisiertes Objekt:
-            DateTimeInfo antwort = (DateTimeInfo) vomServerSerializable.readObject();
-            anzeige = antwort.getInfo();
+//            DateTimeInfo antwort = (DateTimeInfo) vomServerSerializable.readObject();
+//            anzeige = antwort.getInfo();
 
             // 2. Server schickt ein mit Jackson serialisiertes XML Objekt
-//            String xmlData = vomServer.readLine();
-//            DateTimeInfo objectFromServer = new XmlSerializer().deserialize(xmlData, new TypeReference<DateTimeInfo>() {
-//            });
-//            System.out.println(objectFromServer.getInfo());
+            String xmlData = vomServer.readLine();
+            DateTimeInfo objectFromServer = new XmlSerializer().deserialize(xmlData, new TypeReference<DateTimeInfo>() {
+            });
+            System.out.println(objectFromServer.getInfo());
 
             // 3. Server schickt ein simplen String
 //            anzeige = vomServer.readLine();
@@ -62,8 +63,6 @@ class DateTimeClient {
             System.out.println("Kein DNS-Eintrag für " + hostName);
         } catch (IOException e) {
             System.out.println("IO-Error");
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
